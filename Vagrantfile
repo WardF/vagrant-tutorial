@@ -26,8 +26,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "ubuntu_dev" do |v|
+    v.vm.box = "WardF/saucy64"
     v.vm.provision :shell, :path => "provision_scripts/bootstrap_dev.sh"
-    v.vm.box "WardF/saucy64"
+  end
+
+  config.vm.define "ubuntu_webserver" do |v|
+    v.vm.box = "WardF/saucy64"
+    #v.vm.provision :shell, :path => "provision_scripts/bootstrap_web.sh"
+    v.vm.network :forwarded_port, host: 4567, guest: 80
   end
 
 

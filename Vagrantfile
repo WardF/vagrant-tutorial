@@ -19,8 +19,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = 1
   end
 
+  config.vm.network "private_network", ip: "192.168.33.10"
 
-  # Every Vagrant virtual environment requires a box to build off of.
+
+  # Every Vagrant virtual environment requires a base box.
   config.vm.define "ubuntu_plain", primary: true do |v|
     v.vm.box = "WardF/saucy64"
   end
@@ -32,8 +34,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "ubuntu_webserver" do |v|
     v.vm.box = "WardF/saucy64"
-    #v.vm.provision :shell, :path => "provision_scripts/bootstrap_web.sh"
-    v.vm.network :forwarded_port, host: 4567, guest: 80
+    v.vm.provision :shell, :path => "provision_scripts/bootstrap_web.sh"
+    v.vm.network "forwarded_port", host: 8080, guest: 80
   end
 
 
@@ -50,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on

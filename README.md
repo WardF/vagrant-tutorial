@@ -6,6 +6,8 @@ Overview
 
 Vagrant is a developer-centric tool for managing and distributing VM environments between developers and/or users.  I believe that it can be very useful to us as an organization, as both a development tool and a distribution pipeline for pre-configured virtual environments for our community.
 
+**Vagrant/VagrantCloud is essentially git/github for Virtual Machine images.**
+
 ### Requirements
 
 In order to work through this tutorial, the following is needed:

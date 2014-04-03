@@ -16,24 +16,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider "virtualbox" do |v|
     v.memory = 512
-    v.cpus = 1
+    v.cpus = 1 
   end
-
-  config.vm.network "private_network", ip: "192.168.33.10"
-
 
   # Every Vagrant virtual environment requires a base box.
   config.vm.define "ubuntu_plain", primary: true do |v|
-    v.vm.box = "WardF/saucy64"
+    v.vm.box = "hashicorp/precise64"
   end
 
   config.vm.define "ubuntu_dev" do |v|
-    v.vm.box = "WardF/saucy64"
+    v.vm.box = "hashicorp/precise64"
     v.vm.provision :shell, :path => "provision_scripts/bootstrap_dev.sh"
   end
 
   config.vm.define "ubuntu_webserver" do |v|
-    v.vm.box = "WardF/saucy64"
+    v.vm.box = "hashicorp/precise64"
     v.vm.provision :shell, :path => "provision_scripts/bootstrap_web.sh"
     v.vm.network "forwarded_port", host: 8080, guest: 80
   end
@@ -87,7 +84,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
-  # the file WardF/saucy64.pp in the manifests_path directory.
+  # the file hashicorp/precise64.pp in the manifests_path directory.
   #
   # An example Puppet manifest to provision the message of the day:
   #

@@ -6,7 +6,9 @@ Overview
 
 Vagrant is a developer-centric tool for managing and distributing VM environments between developers and/or users.  I believe that it can be very useful to us as an organization, as both a development tool and a distribution pipeline for pre-configured virtual environments for our community.
 
-**Vagrant/VagrantCloud is essentially git/github for Virtual Machine images.**
+The bottom line:
+
+    Vagrant/VagrantCloud is essentially git/github for Virtual Machine images.
 
 ### Requirements
 
@@ -40,16 +42,16 @@ You can view the defined VM configurations for this project with the following c
     
 This will list the following VM configurations:
 
-* `ubuntu_plain`: A base ubuntu 13.10 64-bit system.
-* `ubuntu_developer`: A base ubuntu 13.10 64-bit system, plus ubuntu developer tools.
-* `ubuntu_webserver`: A base ubuntu 13.10 64-bit system with a running web server.
+* `ubuntu_plain`: A base ubuntu 12.04 64-bit system.
+* `ubuntu_developer`: A base ubuntu 12.04 64-bit system, plus ubuntu developer tools.
+* `ubuntu_webserver`: A base ubuntu 12.04 64-bit system with a running web server.
 
 
-If you examine the `Vagrantfile` configuration, you will see that all systems inherit from the `WardF/saucy64` box.  This identifier is mapped through the Vagrant service to a VM image hosted on an `Azure` instance. `WardF/saucy64` is a 64-bit 13.10 Ubuntu system.  **Other** publicly available boxes may be found at https://vagrantcloud.com/discover/featured.
+If you examine the `Vagrantfile` configuration, you will see that all systems inherit from the `hashicorp/precise64` box.  This identifier is mapped through the Vagrant service to a VM image hosted on some remote server. `hashicorp/precise64` is a 64-bit 12.04 Ubuntu system, provided by the Vagrant development team.  **Other** publicly available boxes may be found at https://vagrantcloud.com/discover/featured.
 
-The first time you use `Vagrant` to bring up a VM image, it will look to see if a local version of `WardF/saucy64` exists.  If it does not, it will go out and fetch it.  You can also download and view it ahead of time with the following commands:
+The first time you use `Vagrant` to bring up a VM image, it will look to see if a local version of `hashicorp/precise64` exists.  If it does not, it will go out and fetch it.  You can also download and view it ahead of time with the following commands:
 
-    $ vagrant box add WardF/saucy64
+    $ vagrant box add hashicorp/precise64
     $ vagrant box list
 
     
@@ -79,7 +81,7 @@ Next, lets look at using Vagrant to create a development environment within a VM
     
 You can then watch vagrant create and boot the VM image, and then install the developer tools.  You will then be able to use the same commands to interact with the VM.    
     
-### Wait a moment! Don't `ubuntu_plain` and `ubuntu_developer` both use the same vagrant box, `WardF/saucy64`?
+### Wait a moment! Don't `ubuntu_plain` and `ubuntu_developer` both use the same vagrant box, `hashicorp/precise64`?
 
 Yes, they do!  The developer tools are installed when the VM is `provisioned`.  In this case, vagrant is running the bash script "provision_scripts/bootstrap_script.sh" after bringing up the VM.  This script is run as the `root` user.
 
@@ -90,6 +92,20 @@ The final example shows how a basic Vagrant networking example.  We'll use the `
 
     $ vagrant up ubuntu_webserver
     
-This time, vagrant will use the `provision_scripts/bootstrap_web.sh` bash script to provision the server.
+This time, vagrant will use the `provision_scripts/bootstrap_web.sh` bash script to provision the server. This script:
 
-Once the VM is booted, you can view the default apache install by opening a web browser and pointing it at `http://localhost:4567`.
+* Installs `apache2`, other tools.
+* Renders this README.md markdown file into an html document, index.html
+* Removes the default index.html in `/var/www/` on the web server.
+* Uses the html version of this markdown file as the new default website.
+
+Once the VM is booted, you can view the default apache install by opening a web browser and pointing it at `http://localhost:8080`.  This port forwarding is enabled in the configuration file, and may use arbitrary ports.  Note, Vagrant is smart about port collision and will do its best to prevent it.  
+
+Summary
+=======
+This tutorial *barely* scratches the surface of Vagrant.  Additional information may be found at the following sites:
+
+* http://www.vagrantup.com - Vagrant Website for developers. 
+* http://docs.vagrantup.com/v2/getting-started/index.html - Vagrant documentation.
+* https://vagrantcloud.com - The Vagrant cloud service.
+* https://vagrantcloud.com/discover/featured - Other VM boxes available for use.
